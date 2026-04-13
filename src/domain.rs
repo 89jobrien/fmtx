@@ -1,12 +1,19 @@
 use std::path::Path;
 use thiserror::Error;
 
+/// A single formatter command step.
 #[derive(Debug, Clone)]
-pub struct FormatterEntry {
+pub struct CommandStep {
     pub command: String,
     pub args: Vec<String>,
     /// Additional args appended when running in --check mode.
     pub check_args: Vec<String>,
+}
+
+/// One or more formatter steps registered for a file extension.
+#[derive(Debug, Clone)]
+pub struct FormatterEntry {
+    pub steps: Vec<CommandStep>,
 }
 
 #[derive(Debug, Error)]

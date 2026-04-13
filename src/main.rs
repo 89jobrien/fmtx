@@ -6,7 +6,7 @@ use std::path::PathBuf;
 use std::process::ExitCode;
 
 use config::Config;
-use domain::{extension_of, Formatter as _, FormatterError};
+use domain::{Formatter as _, FormatterError, extension_of};
 use runner::CommandRunner;
 
 fn main() -> ExitCode {
