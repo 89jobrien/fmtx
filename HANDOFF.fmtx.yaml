@@ -2,10 +2,12 @@ project: fmtx
 updated: 2026-04-13
 
 notes: >
-  File extension to formatter dispatcher. Reads ~/.config/fmtx/config.toml, maps
-  extensions to formatter commands (rustfmt, shellcheck, prettier via bunx, black via
-  uvx, taplo). Supports --check flag. Used as a single PostToolUse hook in
-  ~/.claude/settings.json replacing three inline shell conditionals.
+  File extension to formatter dispatcher. Reads config via FMTX_CONFIG env var or
+  platform config dir (~/.config/fmtx/config.toml on Linux,
+  ~/Library/Application Support/fmtx/config.toml on macOS). Supports single and
+  multi-command per extension, format_args (format-only flags), check_args (check-only
+  flags). Used as PostToolUse hook in ~/.claude/settings.json. User is on nushell —
+  .nu support pending nufmt publication.
 
 items:
   - id: fmtx-1
@@ -31,7 +33,41 @@ items:
     files:
       - ~/.config/fmtx/config.toml
 
+  - id: fmtx-3
+    title: Add .nu (nushell) formatter support
+    priority: P2
+    status: blocked
+    description: >
+      nufmt is not published on crates.io yet. Commented-out stub already in config.
+      Unblock by installing nufmt once published (or via cargo install from git).
+      Then enable: [extensions.nu] command = "nufmt", check_args = ["--check"].
+    files:
+      - ~/.config/fmtx/config.toml
+    extra:
+      - type: blocker
+        note: nufmt not yet on crates.io — track https://github.com/nushell/nufmt
+
+  - id: fmtx-4
+    title: Add --config CLI flag for explicit config path
+    priority: P2
+    status: open
+    description: >
+      Currently FMTX_CONFIG env var overrides config path (added for test isolation).
+      A --config <path> CLI flag would be cleaner for scripted use and CI environments
+      without needing to set env vars. Also needed to truly decouple integration tests
+      from the live dotfile.
+    files:
+      - src/main.rs
+      - src/config.rs
+
 log:
+  - date: 2026-04-13
+    summary: >
+      format_args field added to CommandStep; lint+autofix config wired (shfmt+shellcheck
+      for .sh/.bash, ruff format+check --fix for .py, prettier --write fix for .md,
+      rustfmt edition 2024); FMTX_CONFIG env var for test isolation; 11 integration
+      tests added (rustfmt/shfmt/taplo format+check); .nu stub in config.
+    commits: [34c5eeb]
   - date: 2026-04-13
     summary: >
       fmtx-1 done — multi-command support via commands = [...] array in config; backward
