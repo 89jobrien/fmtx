@@ -54,7 +54,17 @@ args = ["format"]
 check_args = ["format", "--check"]
 ```
 
-Extension keys are normalised to lowercase. `args` are always passed; `check_args` are appended only in `--check` mode. The file path is always the final argument to each command.
+Extension keys are normalised to lowercase. `args` are always passed; `format_args` are appended only in format mode (not `--check`); `check_args` are appended only in `--check` mode. The file path is always the final argument to each command.
+
+## Config path
+
+On macOS, `dirs_next::config_dir()` resolves to `~/Library/Application Support/fmtx/config.toml`,
+**not** `~/.config/`. Override with `FMTX_CONFIG=/path/to/config.toml` — integration tests use
+this to avoid depending on the live dotfile.
+
+## Gotchas
+
+- LSP diagnostics go stale after edits — always verify with `cargo nextest run`, not the IDE error list.
 
 ## Key behaviours
 
