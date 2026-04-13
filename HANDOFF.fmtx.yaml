@@ -1,0 +1,40 @@
+project: fmtx
+updated: 2026-04-13
+
+notes: >
+  File extension to formatter dispatcher. Reads ~/.config/fmtx/config.toml, maps
+  extensions to formatter commands (rustfmt, shellcheck, prettier via bunx, black via
+  uvx, taplo). Supports --check flag. Used as a single PostToolUse hook in
+  ~/.claude/settings.json replacing three inline shell conditionals.
+
+items:
+  - id: fmtx-1
+    title: Add multi-command support per extension
+    priority: P2
+    status: open
+    description: >
+      Currently one command per extension. Some extensions need both a formatter and a
+      linter (e.g. rs needs rustfmt + rascal check). Options: fmtrs wrapper script
+      (current workaround), or native commands = [...] array in config.
+    files:
+      - src/config.rs
+      - src/main.rs
+
+  - id: fmtx-2
+    title: Wire rascal check for .rs files
+    priority: P2
+    status: open
+    description: >
+      Once rascal's embedder (issue #1) is live, add rascal check as a second step
+      for .rs files alongside rustfmt. Either via fmtrs wrapper or fmtx-1 multi-command.
+    files:
+      - ~/.config/fmtx/config.toml
+
+log:
+  - date: 2026-04-13
+    summary: >
+      Initial implementation shipped — domain/config/runner/main; TOML config at
+      ~/.config/fmtx/config.toml; PostToolUse hook in settings.json; default formatters
+      for rs/sh/bash/md/py/toml. dprint installed for markdown. hooks for cargo check,
+      shellcheck, dprint collapsed into single fmtx dispatcher call.
+    commits: [bb2d4d5]
