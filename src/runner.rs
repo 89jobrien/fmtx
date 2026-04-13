@@ -22,6 +22,8 @@ fn run_step(step: &CommandStep, path: &Path, check: bool) -> Result<(), Formatte
 
     if check {
         cmd.args(&step.check_args);
+    } else {
+        cmd.args(&step.format_args);
     }
 
     cmd.arg(path);
@@ -59,6 +61,7 @@ mod tests {
         CommandStep {
             command: "true".to_string(),
             args: vec![],
+            format_args: vec![],
             check_args: vec![],
         }
     }
@@ -67,6 +70,7 @@ mod tests {
         CommandStep {
             command: "false".to_string(),
             args: vec![],
+            format_args: vec![],
             check_args: vec![],
         }
     }

@@ -3,6 +3,11 @@ name = "fmtx"
 version = "0.1.0"
 edition = "2024"
 
+[dev-dependencies]
+assert_cmd = "2.0"
+dirs-next = "2.0"
+tempfile = "3"
+
 [dependencies]
 dirs-next = "2.0.0"
 serde = { version = "1.0.228", features = ["derive"] }

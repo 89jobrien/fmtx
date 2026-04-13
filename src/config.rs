@@ -12,6 +12,8 @@ struct RawSingle {
     #[serde(default)]
     args: Vec<String>,
     #[serde(default)]
+    format_args: Vec<String>,
+    #[serde(default)]
     check_args: Vec<String>,
 }
 
@@ -76,11 +78,15 @@ fn raw_single_to_step(s: RawSingle) -> CommandStep {
     CommandStep {
         command: s.command,
         args: s.args,
+        format_args: s.format_args,
         check_args: s.check_args,
     }
 }
 
 fn config_path() -> PathBuf {
+    if let Ok(p) = std::env::var("FMTX_CONFIG") {
+        return PathBuf::from(p);
+    }
     dirs_next::config_dir()
         .unwrap_or_else(|| PathBuf::from("~/.config"))
         .join("fmtx")

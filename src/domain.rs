@@ -5,8 +5,11 @@ use thiserror::Error;
 #[derive(Debug, Clone)]
 pub struct CommandStep {
     pub command: String,
+    /// Args always passed.
     pub args: Vec<String>,
-    /// Additional args appended when running in --check mode.
+    /// Args appended only in format mode (not --check).
+    pub format_args: Vec<String>,
+    /// Args appended only in --check mode.
     pub check_args: Vec<String>,
 }
 
