@@ -11,7 +11,8 @@ items:
   - id: fmtx-1
     title: Add multi-command support per extension
     priority: P2
-    status: open
+    status: done
+    completed: 2026-04-13
     description: >
       Currently one command per extension. Some extensions need both a formatter and a
       linter (e.g. rs needs rustfmt + rascal check). Options: fmtrs wrapper script
@@ -31,6 +32,10 @@ items:
       - ~/.config/fmtx/config.toml
 
 log:
+  - date: 2026-04-13
+    summary: >
+      fmtx-1 done — multi-command support via commands = [...] array in config; backward
+      compat with single command = "..." form; 10 tests green.
   - date: 2026-04-13
     summary: >
       Initial implementation shipped — domain/config/runner/main; TOML config at
